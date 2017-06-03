@@ -1,17 +1,17 @@
 # Snake
 
-Aggiungere random drops CREATO LA FUNZIONE
+Ho creato questo progetto per divertirmi e prendere dimestichezza con le liste in C++ 
 
-Aggiungere coda IN CORSO 
 
-Riguardare le variabili globali e le funzioni e sistemare un po' il macello  *facepalm*
+# TODO
 
-Pensare a come sostituire la matrice o a creare una funzione che aggiorna la matrice una volta dato lo snake e il drop
+Rivedere organizzazione in generale variabili globali, funzioni ecc.. e sistemare un po' il macello  *facepalm*
 
-Controlla addTale in caso ci sia un solo nodo con next=NULL FATTO SEMBRA ESSERE OK
+Organizzare meglio move() che fa schifoooooo
 
-Se size dello snake>1 non puoi andare nella direzione contraria  MODIFICATO IN MOVE() 
+Aggiungere le collisoni con il serpente e con il drop
 
-Metti apposto move() che fa schifoooooo
+Aggiungere SCORE
 
-Aggiungi le collisoni con il serpente e con il drop 
+Aggiungere VITTORIA
+
