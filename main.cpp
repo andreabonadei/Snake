@@ -70,19 +70,42 @@ int show(int field[][COLS]){
 	cout<<endl;
 }
 
-void changeDirection(char key,char& direction){
-		
-	if( key == UP ){					//UP
+int snakeLength (node*head){
+	
+	node* p;
+	int length;
+	if (head==NULL)
+		length=0;
+		else
+			length=1;
+	p=head;
+	while(p->next!=NULL){
+		p=p->next;
+		length++;
+	}
+	
+	return length;
+}
+
+void changeDirection(node* head, char key,char& direction,char prevDir){
+	
+	int length;	
+	length=snakeLength(head);
+	cout<<length;
+	
+	if( key == UP && !(length>1 && prevDir=='D')){					//UP
 		direction='U';		
-	}else if( key == DOWN ){			//DOWN
+	}else if( key == DOWN && !(length>1 && prevDir=='U')){			//DOWN
 		direction='D';
-	}else if( key == RIGHT ){			//RIGHT
+	}else if( key == RIGHT && !(length>1 && prevDir=='L') ){			//RIGHT
 		direction='R';
-	}else if( key == LEFT){				//LEFT
+	}else if( key == LEFT && !(length>1 && prevDir=='R')){				//LEFT
 		direction='L';
 	}
 	
+	//
 }
+
 
 int move(int field[][COLS],node* head, char direction){
 	
@@ -222,7 +245,8 @@ int main(int argc, char** argv) {
 	int field[ROWS][COLS]={0};
 	node* head=new node();	//The head of the snake
 	char key;	//Key pressed
-	char dir;	//Direction of the snake (T Top D Down R Right L Left)
+	char dir;	//Direction of the snake (T Top D Down R Right L Left)+
+	char prevDir; //Previous direction of the snake;
 	long startTime, currentTime;
 	point drop;
 	
@@ -232,7 +256,7 @@ int main(int argc, char** argv) {
 	field[0][1]=1; 		//Snake starts at the top left and heading right
 	head->p.x=0;
 	head->p.y=0;
-	dir='R';	
+	prevDir=dir='R';	
 	drop=newDrop(field);
 	head->p.x=4;
 	head->p.y=0;	
@@ -266,8 +290,9 @@ int main(int argc, char** argv) {
 			
 			if (key==EXIT)		//End the game
 				break;
-				
-			changeDirection(key,dir);	
+			
+			prevDir=dir;
+			changeDirection(head,key,dir,prevDir);	
 		}
 			
 		
