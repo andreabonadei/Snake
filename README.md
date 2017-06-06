@@ -9,9 +9,10 @@ Rivedere organizzazione in generale variabili globali, funzioni ecc.. e sistemar
 
 Organizzare meglio move() che fa schifoooooo
 
-Aggiungere le collisoni con il serpente e con il drop
-
-Aggiungere SCORE
+Aggiungere le collisoni con il serpente
 
 Aggiungere VITTORIA
 
+# KNOWN BUGS
+
+A new drop can drop inside the snake and ruin everything fix that in newDrop()
