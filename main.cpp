@@ -44,7 +44,7 @@ void visualize(int field[][COLS]){	//For debugging
 	}	
 }
 
-int show(int field[][COLS]){
+int show(int field[][COLS], int score){
 	
 	system("CLS");
 	
@@ -68,6 +68,8 @@ int show(int field[][COLS]){
 	for(int i=0;i<COLS*2+2;i++)
 		cout<<setw(1)<<(char)254<<setw(1);
 	cout<<endl;
+	
+	cout<<"SCORE: "<<score;
 }
 
 int snakeLength (node*head){
@@ -112,17 +114,31 @@ int move(int field[][COLS],node* head, char direction){
 //	cout<<"MOVE";
 //	system("PAUSE");
 	node* q;
-	int prevX,prevY,t;
+	int prevX,prevY,t,r;
 	
 	int oldY=head->p.y,oldX=head->p.x;
 	
 	field[oldY][oldX]=0;
 	
+//	if(field[head->p.y][head->p.x]==2)		
+//		r=2;
+	
 	if(direction=='U' && head->p.y!=0){					//UP
 		prevX=head->p.x;
 		prevY=head->p.y;
+//		cout<<"prossima posizione numero"<<field[head->p.y-1][head->p.x];
+//		system("PAUSE");
+		if(field[head->p.y-1][head->p.x]==2)		//The snake eats a drop
+			r=2;
 		head->p.y=head->p.y-1;
 		q=head;
+		
+//		if(r==2)			//QUESTA COSA FA SCHIFO SISTEMA TUTTO
+//		{
+//			addTale
+//		}	
+		
+			
 		while(q->next!=NULL){
 			q=q->next;
 			field[q->p.y][q->p.x]=0;
@@ -137,6 +153,10 @@ int move(int field[][COLS],node* head, char direction){
 	}else if(direction=='D' && head->p.y<(ROWS-1)){		//DOWN
 		prevX=head->p.x;
 		prevY=head->p.y;
+//		cout<<"prossima posizione numero"<<field[head->p.y+1][head->p.x];
+//		system("PAUSE");
+		if(field[head->p.y+1][head->p.x]==2)		//The snake eats a drop
+			r=2;
 		head->p.y=head->p.y+1;
 		q=head;
 		while(q->next!=NULL){
@@ -153,6 +173,10 @@ int move(int field[][COLS],node* head, char direction){
 	}else if(direction=='R' && head->p.x<(COLS-1)){		//RIGHT
 		prevX=head->p.x;
 		prevY=head->p.y;
+//		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x+1];
+//		system("PAUSE");
+		if(field[head->p.y][head->p.x+1]==2)		//The snake eats a drop
+			r=2;
 		head->p.x=head->p.x+1;
 		q=head;
 		while(q->next!=NULL){
@@ -169,6 +193,10 @@ int move(int field[][COLS],node* head, char direction){
 	}else if(direction=='L' && head->p.x!=0){			//LEFT
 		prevX=head->p.x;
 		prevY=head->p.y;
+//		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x-1];
+//		system("PAUSE");
+		if(field[head->p.y][head->p.x-1]==2)		//The snake eats a drop
+			r=2;
 		head->p.x=head->p.x-1;
 		q=head;
 		while(q->next!=NULL){
@@ -185,11 +213,14 @@ int move(int field[][COLS],node* head, char direction){
 	}
 	
 	if( head->p.y==oldY && head->p.x==oldX){		//GAME OVER!
-		return 0;
+		r=0;
 	}else{										//SUCCESSFULLY MOVED
 		field[head->p.y][head->p.x]=1;
-		return 1;
+		if(r!=2)
+			r=1;
 	}
+	
+	return r;
 	
 }
 
@@ -214,7 +245,7 @@ point newDrop(int field[][COLS]){
 	return drop;
 }
 
-int addTale (int field[][COLS], node*&head, int x, int y){
+int addTale (int field[][COLS], node*&head){
 	node* t; 
 	node* p;
 
@@ -224,9 +255,8 @@ int addTale (int field[][COLS], node*&head, int x, int y){
 		return 1;
 	}
 	
-	t->p.x=x;
-	t->p.y=y;
-	field[y][x]=1;
+		
+
 	t->next=NULL;
 	if(head==NULL){
 		head=t;
@@ -236,6 +266,9 @@ int addTale (int field[][COLS], node*&head, int x, int y){
 	while(p->next!=NULL)
 		p=p->next;
 	p->next=t;
+	t->p.x=p->p.x;
+	t->p.y=p->p.y;
+	field[t->p.y][t->p.x]=1;
 	return 0;
 }
 
@@ -249,26 +282,27 @@ int main(int argc, char** argv) {
 	char prevDir; //Previous direction of the snake;
 	long startTime, currentTime;
 	point drop;
+	int r; //To keep the result of move
+	int score=0;
 	
 	srand (time(NULL));	//Generate random seed 
 	
 	//Setup
-	field[0][1]=1; 		//Snake starts at the top left and heading right
+	field[0][0]=1; 		//Snake starts at the top left and heading right
 	head->p.x=0;
 	head->p.y=0;
+	head->next=NULL;
 	prevDir=dir='R';	
-	drop=newDrop(field);
-	head->p.x=4;
-	head->p.y=0;	
-	addTale(field,head,3,0);
-	addTale(field,head,2,0);
-	addTale(field,head,1,0);
-	addTale(field,head,0,0);
+	drop=newDrop(field);	
+//	addTale(field,head,3,0);
+//	addTale(field,head,2,0);
+//	addTale(field,head,1,0);
+//	addTale(field,head,0,0);
 	debugSnake(head);
 	system("PAUSE");
 
 	
-	show(field);
+	show(field,score);
 	startTime=GetTickCount();
 
 	
@@ -276,12 +310,20 @@ int main(int argc, char** argv) {
 			
 		currentTime=GetTickCount()-startTime;
 		
-		if ( currentTime >= 500 ){			// half a second
-			if( !move(field,head,dir) ){
+		if ( currentTime >= 100 ){			// half a second
+			r=move(field,head,dir);
+//			cout<<"move result:"<<r<<endl;
+//			system("PAUSE");
+			if(r==0){
 				cout<<"****** GAME OVER! ******"<<endl;
 				break;
+			}else if (r==2)
+			{
+				score+=10;
+				newDrop(field);
+				addTale(field,head);			
 			}
-			show(field);
+			show(field,score);
 			startTime=GetTickCount();
 		}
 		
