@@ -11,8 +11,8 @@ using namespace std;
 //Configurations
 
 //Field size
-#define COLS 30 //Number of columns
-#define ROWS 20 //Number of rows
+#define COLS 10//Number of columns
+#define ROWS 10 //Number of rows
 
 //Exit key
 const char EXIT='1';
@@ -22,6 +22,10 @@ const char UP='w';
 const char DOWN='s';
 const char RIGHT='d';
 const char LEFT='a';
+//const char UP=(char)-3272;
+//const char DOWN=(char)-3280;
+//const char RIGHT=(char)-3277;
+//const char LEFT=(char)-3275;
 
 
 struct point{	// A point on the matrix
@@ -56,11 +60,13 @@ int show(int field[][COLS], int score){
 		cout<<setw(1)<<"|";
 		for(int j=0;j<COLS;j++){
 			if(field[i][j]==1){							//Snake node
-				cout<<setw(2)<<(char)254<<setw(1);
+				cout<<setw(2)<<char(254)<<setw(1);
 			}else if(field[i][j]==2){										
 					cout<<setw(2)<<"*"<<setw(1);
-			}else
-				cout<<setw(1)<<"  "<<setw(1);
+			}else if(field[i][j]==3){							//Snake node
+						cout<<setw(2)<<"o"<<setw(1);
+				}else
+					cout<<setw(1)<<"  "<<setw(1);
 		}
 		cout<<setw(1)<<"|"<<endl;  
 	}	
@@ -249,7 +255,7 @@ int move(int field[][COLS],node* head, char direction){
 		prevY=head->p.y;		
 		if(field[head->p.y+yoff][head->p.x+xoff]==2)		
 			r=2;											//The snake eats a drop	
-			else if (field[head->p.y+yoff][head->p.x+xoff]==1)
+			else if (field[head->p.y+yoff][head->p.x+xoff]==3)
 				return 0;									//GAME OVER!! THE SNAKE ATE HIS TAIL		
 		head->p.y=head->p.y+yoff;
 		head->p.x=head->p.x+xoff;
@@ -265,7 +271,7 @@ int move(int field[][COLS],node* head, char direction){
 			t=q->p.x;		
 			q->p.x=prevX;
 			prevX=t;
-			field[q->p.y][q->p.x]=1;
+			field[q->p.y][q->p.x]=3;
 		}
 	
 	return r;
@@ -317,7 +323,7 @@ int addTale (int field[][COLS], node*&head){
 	p->next=t;
 	t->p.x=p->p.x;
 	t->p.y=p->p.y;
-	field[t->p.y][t->p.x]=1;
+	field[t->p.y][t->p.x]=3;
 	return 0;
 }
 
@@ -348,6 +354,16 @@ int main(int argc, char** argv) {
 //	addTale(field,head,1,0);
 //	addTale(field,head,0,0);
 //	debugSnake(head);
+	
+	while(key!=(int)'1'){
+			if( _kbhit() ){
+		key = _getch();
+		cout<<(int)key;
+
+	}
+	}
+
+		
 	system("PAUSE");
 
 	
@@ -359,7 +375,7 @@ int main(int argc, char** argv) {
 			
 		currentTime=GetTickCount()-startTime;
 		
-		if ( currentTime >= 150 ){			// half a second
+		if ( currentTime >= 200 ){			// half a second
 			
 			if( _kbhit() ){
 			key = _getch();
