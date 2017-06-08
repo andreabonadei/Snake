@@ -109,6 +109,122 @@ void changeDirection(node* head, char key,char& direction,char prevDir){
 }
 
 
+//int move(int field[][COLS],node* head, char direction){
+//	
+////	cout<<"MOVE";
+////	system("PAUSE");
+//	node* q;
+//	int prevX,prevY,t,r;
+//	
+//	int oldY=head->p.y
+//	int oldX=head->p.x;
+//	
+//	field[oldY][oldX]=0;
+//	
+////	if(field[head->p.y][head->p.x]==2)		
+////		r=2;
+//	
+//	if(direction=='U' && head->p.y!=0){					//UP
+//		prevX=head->p.x;
+//		prevY=head->p.y;
+////		cout<<"prossima posizione numero"<<field[head->p.y-1][head->p.x];
+////		system("PAUSE");
+//		if(field[head->p.y-1][head->p.x]==2)		//The snake eats a drop
+//			r=2;
+//		head->p.y=head->p.y-1;
+//		q=head;
+//		
+////		if(r==2)			//QUESTA COSA FA SCHIFO SISTEMA TUTTO
+////		{
+////			addTale
+////		}	
+//		
+//			
+//		while(q->next!=NULL){
+//			q=q->next;
+//			field[q->p.y][q->p.x]=0;
+//			t=q->p.y;
+//			q->p.y=prevY;
+//			prevY=t;
+//			t=q->p.x;		
+//			q->p.x=prevX;
+//			prevX=t;
+//			field[q->p.y][q->p.x]=1;
+//		}		
+//	}else if(direction=='D' && head->p.y<(ROWS-1)){		//DOWN
+//		prevX=head->p.x;
+//		prevY=head->p.y;
+////		cout<<"prossima posizione numero"<<field[head->p.y+1][head->p.x];
+////		system("PAUSE");
+//		if(field[head->p.y+1][head->p.x]==2)		//The snake eats a drop
+//			r=2;
+//		head->p.y=head->p.y+1;
+//		q=head;
+//		while(q->next!=NULL){
+//			q=q->next;
+//			field[q->p.y][q->p.x]=0;
+//			t=q->p.y;
+//			q->p.y=prevY;
+//			prevY=t;
+//			t=q->p.x;		
+//			q->p.x=prevX;
+//			prevX=t;
+//			field[q->p.y][q->p.x]=1;
+//		}
+//	}else if(direction=='R' && head->p.x<(COLS-1)){		//RIGHT
+//		prevX=head->p.x;
+//		prevY=head->p.y;
+////		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x+1];
+////		system("PAUSE");
+//		if(field[head->p.y][head->p.x+1]==2)		//The snake eats a drop
+//			r=2;
+//		head->p.x=head->p.x+1;
+//		q=head;
+//		while(q->next!=NULL){
+//			q=q->next;
+//			field[q->p.y][q->p.x]=0;
+//			t=q->p.y;
+//			q->p.y=prevY;
+//			prevY=t;
+//			t=q->p.x;		
+//			q->p.x=prevX;
+//			prevX=t;
+//			field[q->p.y][q->p.x]=1;
+//		}
+//	}else if(direction=='L' && head->p.x!=0){			//LEFT
+//		prevX=head->p.x;
+//		prevY=head->p.y;
+////		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x-1];
+////		system("PAUSE");
+//		if(field[head->p.y][head->p.x-1]==2)		//The snake eats a drop
+//			r=2;
+//		head->p.x=head->p.x-1;
+//		q=head;
+//		while(q->next!=NULL){
+//			q=q->next;
+//			field[q->p.y][q->p.x]=0;
+//			t=q->p.y;
+//			q->p.y=prevY;
+//			prevY=t;
+//			t=q->p.x;		
+//			q->p.x=prevX;
+//			prevX=t;
+//			field[q->p.y][q->p.x]=1;
+//		}
+//	}
+//	
+//	if( head->p.y==oldY && head->p.x==oldX){		//GAME OVER!
+//		r=0;
+//	}else{										//SUCCESSFULLY MOVED
+//		field[head->p.y][head->p.x]=1;
+//		if(r!=2)
+//			r=1;
+//	}
+//	
+//	return r;
+//	
+//}
+
 int move(int field[][COLS],node* head, char direction){
 	
 //	cout<<"MOVE";
@@ -116,50 +232,42 @@ int move(int field[][COLS],node* head, char direction){
 	node* q;
 	int prevX,prevY,t,r;
 	
-	int oldY=head->p.y,oldX=head->p.x;
+	int oldY=head->p.y;
+	int oldX=head->p.x;
 	
 	field[oldY][oldX]=0;
 	
-//	if(field[head->p.y][head->p.x]==2)		
-//		r=2;
+	int xoff=0,yoff=0;
 	
-	if(direction=='U' && head->p.y!=0){					//UP
+//		prevX=head->p.x;
+//		prevY=head->p.y;
+//		if(field[head->p.y-1][head->p.x]==2)		//The snake eats a drop
+//			r=2;
+//		head->p.y=head->p.y-1;
+//		q=head;
+//		
+	
+	if(direction=='U' && head->p.y!=0){							//UP
+		yoff=-1;
+		}else if(direction=='D' && head->p.y<(ROWS-1)){			//DOWN	
+				yoff=+1;
+			}else if(direction=='R' && head->p.x<(COLS-1)){		//RIGHT
+					xoff=+1;
+				}else if(direction=='L' && head->p.x!=0){		//LEFT
+					xoff=-1;
+				}
+
 		prevX=head->p.x;
 		prevY=head->p.y;
-//		cout<<"prossima posizione numero"<<field[head->p.y-1][head->p.x];
-//		system("PAUSE");
-		if(field[head->p.y-1][head->p.x]==2)		//The snake eats a drop
+		
+		if(field[head->p.y+yoff][head->p.x+xoff]==2)		//The snake eats a drop
 			r=2;
-		head->p.y=head->p.y-1;
-		q=head;
-		
-//		if(r==2)			//QUESTA COSA FA SCHIFO SISTEMA TUTTO
-//		{
-//			addTale
-//		}	
-		
 			
-		while(q->next!=NULL){
-			q=q->next;
-			field[q->p.y][q->p.x]=0;
-			t=q->p.y;
-			q->p.y=prevY;
-			prevY=t;
-			t=q->p.x;		
-			q->p.x=prevX;
-			prevX=t;
-			field[q->p.y][q->p.x]=1;
-		}		
-	}else if(direction=='D' && head->p.y<(ROWS-1)){		//DOWN
-		prevX=head->p.x;
-		prevY=head->p.y;
-//		cout<<"prossima posizione numero"<<field[head->p.y+1][head->p.x];
-//		system("PAUSE");
-		if(field[head->p.y+1][head->p.x]==2)		//The snake eats a drop
-			r=2;
-		head->p.y=head->p.y+1;
-		q=head;
-		while(q->next!=NULL){
+		head->p.y=head->p.y+yoff;
+		head->p.x=head->p.x+xoff;		
+		q=head;	
+	
+		while(q->next!=NULL){								//Moves the tail
 			q=q->next;
 			field[q->p.y][q->p.x]=0;
 			t=q->p.y;
@@ -170,47 +278,6 @@ int move(int field[][COLS],node* head, char direction){
 			prevX=t;
 			field[q->p.y][q->p.x]=1;
 		}
-	}else if(direction=='R' && head->p.x<(COLS-1)){		//RIGHT
-		prevX=head->p.x;
-		prevY=head->p.y;
-//		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x+1];
-//		system("PAUSE");
-		if(field[head->p.y][head->p.x+1]==2)		//The snake eats a drop
-			r=2;
-		head->p.x=head->p.x+1;
-		q=head;
-		while(q->next!=NULL){
-			q=q->next;
-			field[q->p.y][q->p.x]=0;
-			t=q->p.y;
-			q->p.y=prevY;
-			prevY=t;
-			t=q->p.x;		
-			q->p.x=prevX;
-			prevX=t;
-			field[q->p.y][q->p.x]=1;
-		}
-	}else if(direction=='L' && head->p.x!=0){			//LEFT
-		prevX=head->p.x;
-		prevY=head->p.y;
-//		cout<<"prossima posizione numero"<<field[head->p.y][head->p.x-1];
-//		system("PAUSE");
-		if(field[head->p.y][head->p.x-1]==2)		//The snake eats a drop
-			r=2;
-		head->p.x=head->p.x-1;
-		q=head;
-		while(q->next!=NULL){
-			q=q->next;
-			field[q->p.y][q->p.x]=0;
-			t=q->p.y;
-			q->p.y=prevY;
-			prevY=t;
-			t=q->p.x;		
-			q->p.x=prevX;
-			prevX=t;
-			field[q->p.y][q->p.x]=1;
-		}
-	}
 	
 	if( head->p.y==oldY && head->p.x==oldX){		//GAME OVER!
 		r=0;
@@ -237,8 +304,12 @@ void debugSnake(node* head)
 point newDrop(int field[][COLS]){
 	
 	point drop;
-	int x = rand() % COLS;
-	int y = rand() % ROWS;
+	int x;
+	int y;
+	do{
+		x = rand() % COLS;
+		y = rand() % ROWS;
+	}while(field[y][x]!=0);
 	drop.x=x;
 	drop.y=y;
 	field[y][x]=2;
@@ -310,12 +381,24 @@ int main(int argc, char** argv) {
 			
 		currentTime=GetTickCount()-startTime;
 		
-		if ( currentTime >= 100 ){			// half a second
+		if ( currentTime >= 150 ){			// half a second
+			
+			if( _kbhit() ){
+			key = _getch();
+			
+			if (key==EXIT)		//End the game
+				break;
+			
+			prevDir=dir;
+			changeDirection(head,key,dir,prevDir);	
+			}
+		
+		
 			r=move(field,head,dir);
 //			cout<<"move result:"<<r<<endl;
 //			system("PAUSE");
 			if(r==0){
-				cout<<"****** GAME OVER! ******"<<endl;
+				cout<<endl<<"****** GAME OVER! ******"<<endl;
 				break;
 			}else if (r==2)
 			{
@@ -327,15 +410,7 @@ int main(int argc, char** argv) {
 			startTime=GetTickCount();
 		}
 		
-		if( _kbhit() ){
-			key = _getch();
-			
-			if (key==EXIT)		//End the game
-				break;
-			
-			prevDir=dir;
-			changeDirection(head,key,dir,prevDir);	
-		}
+
 			
 		
 	}
