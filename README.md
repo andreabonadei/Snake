@@ -7,12 +7,14 @@ Ho creato questo progetto per divertirmi e prendere dimestichezza con le liste i
 
 Rivedere organizzazione in generale variabili globali, funzioni ecc.. e sistemare un po' il macello  *facepalm*
 
-Organizzare meglio move() che fa schifoooooo IN CORSO
+Modificare main con setup(), logic(), draw()
 
-Aggiungere le collisoni con il serpente
+Ottimizzare length
 
-Aggiungere VITTORIA
+Aggiungere VITTORIA 
+
 
 # KNOWN BUGS
 
+None
 
